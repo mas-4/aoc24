@@ -4,8 +4,9 @@ project(aoc24 C)
 set(CMAKE_C_STANDARD 23)
 
 SET(SRC_FILES
-        src/main.c
-        src/01.c)
+        src/01.c
+        src/02.c
+        src/main.c)
 
 include_directories(src)
 
