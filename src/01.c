@@ -5,7 +5,7 @@
 
 constexpr unsigned char raw[] = {
 #embed "../data/01.txt"
-    // #embed "../data/01.txt"
+// #embed "../data/01-test.txt"
 };
 
 typedef struct
@@ -39,7 +39,7 @@ int compare( const void* a, const void* b)
     else return 1;
 }
 
-int ch01()
+int ch0101()
 {
     Data data;
     parse(&data);
@@ -51,4 +51,25 @@ int ch01()
         dist += abs(data.data1[i] - data.data2[i]);
     }
     return (int)dist;
+}
+
+int ch0102()
+{
+    Data data;
+    parse(&data);
+
+    size_t score = 0;
+    for (size_t i = 0; i < data.size; i++)
+    {
+        int32_t seen = 0;
+        for (size_t j = 0; j < data.size; j++)
+        {
+            if (data.data2[j] == data.data1[i])
+            {
+                seen++;
+            }
+        }
+        score += seen * data.data1[i];
+    }
+    return (int)score;
 }

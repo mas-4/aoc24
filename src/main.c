@@ -3,6 +3,7 @@
 
 
 int main(void) {
-    printf("01-01: %d", ch01());
+    printf("01-01: %d\n", ch0101());
+    printf("01-02: %d\n", ch0102());
     return 0;
 }

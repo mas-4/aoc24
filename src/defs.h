@@ -1,3 +1,4 @@
 #include <stdio.h>
 
-int ch01();
+int ch0101();
+int ch0102();
