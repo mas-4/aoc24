@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 23)
 SET(SRC_FILES
         src/01.c
         src/02.c
+        src/03.c
         src/main.c)
 
 include_directories(src)
