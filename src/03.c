@@ -1,4 +1,5 @@
 #include "defs.h"
+#include <string.h>
 
 constexpr unsigned char raw[] = {
 #embed "../data/03.txt" suffix(, )
@@ -56,6 +57,37 @@ int ch0301()
     for (size_t i = 0; i < sizeof(raw); i++)
     {
         if (raw[i] == 'm')
+        {
+            score += evaluate0301(i);
+        }
+    }
+    return score;
+}
+
+bool isdo(size_t i, bool eval) {
+    if (strncmp((char *)&raw[i], "do()", 4) == 0)
+    {
+        return true;
+    } else if (strncmp((char *)&raw[i], "don't()", 7) == 0)
+    {
+        return false;
+    } else {
+        return eval;
+    }
+}
+
+int ch0302()
+{
+    int64_t score = 0;
+    bool eval = true;
+    for (size_t i = 0; i < sizeof(raw); i++)
+    {
+        if (raw[i] == 'd')
+        {
+            eval = isdo(i, eval);
+
+        }
+        else if (eval && raw[i] == 'm')
         {
             score += evaluate0301(i);
         }
