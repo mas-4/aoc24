@@ -82,3 +82,80 @@ int ch0401()
     }
     return count;
 }
+
+int check_top(size_t i, size_t j, char data[140][140])
+{
+    /*
+    M M
+     A
+    S S
+    where i, j is the position of A
+    */
+    return data[i - 1][j - 1] == 'M' && data[i - 1][j + 1] == 'M' && data[i + 1][j - 1] == 'S' && data[i + 1][j + 1] == 'S';
+}
+
+int check_left(size_t i, size_t j, char data[140][140])
+{
+    /*
+    M S
+     A
+    M S
+    where i, j is the position of A
+    */
+    return data[i - 1][j - 1] == 'M' && data[i + 1][j - 1] == 'M' && data[i - 1][j + 1] == 'S' && data[i + 1][j + 1] == 'S';
+}
+
+int check_right(size_t i, size_t j, char data[140][140])
+{
+    /*
+    S M
+     A
+    S M
+    where i, j is the position of A
+    */
+    return data[i - 1][j + 1] == 'M' && data[i + 1][j + 1] == 'M' && data[i - 1][j - 1] == 'S' && data[i + 1][j - 1] == 'S';
+}
+
+int check_bottom(size_t i, size_t j, char data[140][140])
+{
+    /*
+    S S
+     A
+    M M
+    where i, j is the position of A
+    */
+    return data[i + 1][j - 1] == 'M' && data[i + 1][j + 1] == 'M' && data[i - 1][j - 1] == 'S' && data[i - 1][j + 1] == 'S';
+}
+
+int evaluate0402(size_t i, size_t j, char data[140][140])
+{
+    if (i < 1 || i > 138 || j < 1 || j > 138)
+    {
+        return 0;
+    }
+    size_t c = 0;
+    c += check_top(i, j, data);
+    c += check_left(i, j, data);
+    c += check_right(i, j, data);
+    c += check_bottom(i, j, data);
+    return c;
+}
+
+int ch0402()
+{
+    char data[140][140];
+    parse04(data);
+    size_t count = 0;
+
+    for (size_t i = 0; i < 140; i++)
+    {
+        for (size_t j = 0; j < 140; j++)
+        {
+            if (data[i][j] == 'A')
+            {
+                count += evaluate0402(i, j, data);
+            }
+        }
+    }
+    return count;
+}
