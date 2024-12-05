@@ -10,5 +10,6 @@ int main(void)
     printf("03-02: %d\n", ch0302());
     printf("04-01: %d\n", ch0401());
     printf("04-02: %d\n", ch0402());
+    printf("05-01: %d\n", ch0501());
     return 0;
 }
