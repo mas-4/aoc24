@@ -11,5 +11,6 @@ int main(void)
     printf("04-01: %d\n", ch0401());
     printf("04-02: %d\n", ch0402());
     printf("05-01: %d\n", ch0501());
+    printf("05-02: %d\n", ch0502());
     return 0;
 }
