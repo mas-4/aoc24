@@ -9,6 +9,7 @@ SET(SRC_FILES
         src/03.c
         src/04.c
         src/05.c
+        src/06.c
         src/main.c)
 
 include_directories(src)
