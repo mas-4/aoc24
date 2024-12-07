@@ -3,6 +3,7 @@
 
 constexpr unsigned char raw[] = {
 #embed "../data/06.txt" suffix(, )
+    // #embed "../data/06-test.txt" suffix(, )
     0};
 
 #define SZ 130
@@ -22,6 +23,47 @@ typedef struct
     size_t start_y;
     enum Direction start_dir;
 } Data06;
+
+void print_map(char map[][SZ], size_t x, size_t y, enum Direction dir)
+{
+    printf("**********\n");
+    for (size_t i = 0; i < SZ; i++)
+    {
+        for (size_t j = 0; j < SZ; j++)
+        {
+            if (i == y && j == x)
+            {
+                switch (dir)
+                {
+                case DIR_UP:
+                    printf("^");
+                    break;
+                case DIR_DOWN:
+                    printf("v");
+                    break;
+                case DIR_LEFT:
+                    printf("<");
+                    break;
+                case DIR_RIGHT:
+                    printf(">");
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (map[i][j] == '#' || map[i][j] == '.')
+            {
+                printf("%c", map[i][j]);
+            }
+            else
+            {
+                printf("."); // This is the original position but it's not occupied
+            }
+        }
+        printf("\n");
+    }
+    printf("**********\n");
+}
 
 enum Direction get_direction(char dir)
 {
@@ -83,7 +125,7 @@ void parse06(Data06 *data)
     {
         for (size_t j = 0; j < SZ; j++)
         {
-            data->map[i][j] = raw[i * 131 + j]; // Skip the newline/carriage return
+            data->map[i][j] = raw[i * (SZ + 1) + j]; // Skip the newline/carriage return
             if (data->map[i][j] != '#' && data->map[i][j] != '.')
             {
                 data->start_x = j;
@@ -152,30 +194,43 @@ int ch0601()
     return count;
 }
 
-int test(Data06 *data, size_t x, size_t y, enum Direction dir, size_t x1, size_t y1, enum Direction dir1, bool positions[SZ][SZ][4])
+bool inbounds(size_t x, size_t y)
 {
-    bool pos_track[SZ][SZ][4] = {0};
-    memcpy(pos_track, positions, SZ * SZ * 4);
+    return x >= 0 && x < SZ && y >= 0 && y < SZ;
+}
+
+int test(
+    Data06 *data,
+    size_t o_x, size_t o_y, enum Direction o_dir,
+    size_t x, size_t y,
+    bool o_positions[SZ][SZ][4])
+{
+    bool positions[SZ][SZ][4] = {0};
+    memcpy(positions, o_positions, SZ * SZ * 4);
 
     char map[SZ][SZ] = {0};
     memcpy(map, data->map, SZ * SZ);
-    map[y1][x1] = '#';
+    map[y][x] = '#';
+
+    x = o_x, y = o_y;
+    enum Direction dir = o_dir;
 
     while (1)
     {
-        pos_track[y][x][dir] = true;
-        navigate(data->map, &x, &y, &dir);
 
-        if (pos_track[y][x][dir]) // we're cycling
-        {
-            return true;
-        }
-        else if (x < 0 || x >= SZ || y < 0 || y >= SZ)
+        navigate(map, &x, &y, &dir);
+        if (!inbounds(x, y))
         {
             return false;
         }
+        else if (positions[y][x][dir])
+        {
+            return true;
+        }
+        positions[y][x][dir] = true;
     }
 
+    printf("Should not reach here\n");
     return -1; // not possible
 }
 
@@ -195,19 +250,21 @@ int ch0602()
         size_t x1 = x;
         size_t y1 = y;
         enum Direction dir1 = dir;
+
         navigate(data.map, &x1, &y1, &dir1);
-        if (x < 0 || x >= SZ || y < 0 || y >= SZ)
+
+        if (!inbounds(x1, y1))
         {
             break;
         }
-        if (positions[y1][x1][0] || positions[y1][x1][1] || positions[y1][x1][2] || positions[y1][x1][3])
-        {
-            continue;
-        }
-        if (test(&data, x, y, dir, x1, y1, dir1, positions))
+        bool *pos = &positions[y1][x1]; // warning but i'm not sure how to fix it.
+        bool seen = pos[0] || pos[1] || pos[2] || pos[3];
+
+        if (!seen && test(&data, x, y, dir, x1, y1, positions))
         {
             count++;
         }
+        navigate(data.map, &x, &y, &dir);
     }
     return count;
 }
