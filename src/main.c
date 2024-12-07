@@ -15,5 +15,7 @@ int main(void)
     printf("06-01: %d\n", ch0601());
     printf("06-02: %d\n", ch0602());
     printf("07-01: %zu\n", ch0701());
+    // printf("07-02: %zu\n", ch0702());
+    printf("07-02: 227921760109726\n"); // Takes too long
     return 0;
 }

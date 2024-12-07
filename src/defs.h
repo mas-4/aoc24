@@ -20,3 +20,4 @@ int ch0502();
 int ch0601();
 int ch0602();
 size_t ch0701();
+size_t ch0702();

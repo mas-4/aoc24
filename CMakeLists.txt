@@ -16,3 +16,4 @@ SET(SRC_FILES
 include_directories(src)
 
 add_executable(aoc24 ${SRC_FILES})
+target_link_libraries(aoc24 m)
