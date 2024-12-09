@@ -21,3 +21,5 @@ int ch0601();
 int ch0602();
 size_t ch0701();
 size_t ch0702();
+size_t ch0801();
+size_t ch0802();
